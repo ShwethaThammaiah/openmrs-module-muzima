@@ -19,12 +19,14 @@
                     <tr>
                         <th>&nbsp;</th>
                         <th>#</th>
-                        <th>Sender</th>
+                        <th>Form Name</th>
+                        <th>Provider Id</th>
+                        <th>Provider Name</th>
+                        <th>Location Id</th>
+                        <th>Location Name</th>
                         <th>Kind</th>
                         <th>Submitted On</th>
                         <th>Processed On</th>
-                        <th>Error Message</th>
-                        <th>Form Data</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -37,12 +39,14 @@
                                    ng-checked="selected[error.uuid]" ng-model="selected[error.uuid]">
                         </td>
                         <td><a href="#/error/{{error.uuid}}"><i class=icon-edit></i></a></td>
-                        <td>{{error.source}}</td>
+                        <td>{{error.providerId}}</td>
+                        <td>{{error.providerName}}</td>
+                        <td>{{error.locationId}}</td>
+                        <td>{{error.locationName}}</td>
+                        <td>{{error.formName}}</td>
                         <td>{{error.discriminator}}</td>
                         <td>{{error.submitted}}</td>
                         <td>{{error.processed}}</td>
-                        <td><pre>{{error.message | truncate:30 }}</pre></td>
-                        <td><pre>{{error.payload | truncate:30 }}</pre></td>
                     </tr>
                     </tbody>
                 </table>

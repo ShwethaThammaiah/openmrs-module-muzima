@@ -51,7 +51,6 @@ public class ErrorData extends AuditableData {
         this.dateProcessed = dateProcessed;
     }
 
-
     public Set getErrorMessages() {
         return errorMessages;
     }

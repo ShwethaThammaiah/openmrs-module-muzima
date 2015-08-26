@@ -27,6 +27,16 @@ public abstract class AuditableData extends BaseOpenmrsData implements Data {
 
     private DataSource dataSource;
 
+    private String locationId;
+
+    private String locationName;
+
+    private String providerId;
+
+    private String providerName;
+
+    private String formName;
+
     /**
      * **** Audit information ******
      */
@@ -38,6 +48,11 @@ public abstract class AuditableData extends BaseOpenmrsData implements Data {
         setPayload(data.getPayload());
         setDataSource(data.getDataSource());
         setDiscriminator(data.getDiscriminator());
+        setLocationId(data.getLocationId());
+        setLocationName(data.getLocationName());
+        setProviderId(data.getProviderId());
+        setProviderName(data.getProviderName());
+        setFormName(data.getFormName());
     }
 
     /**
@@ -109,5 +124,45 @@ public abstract class AuditableData extends BaseOpenmrsData implements Data {
      */
     public void setDataSource(final DataSource dataSource) {
         this.dataSource = dataSource;
+    }
+
+    public String getLocationId() {
+        return locationId;
+    }
+
+    public void setLocationId(String locationId) {
+        this.locationId = locationId;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public void setLocationName(String locationName) {
+        this.locationName = locationName;
+    }
+
+    public String getProviderId() {
+        return providerId;
+    }
+
+    public void setProviderId(String providerId) {
+        this.providerId = providerId;
+    }
+
+    public String getProviderName() {
+        return providerName;
+    }
+
+    public void setProviderName(String providerName) {
+        this.providerName = providerName;
+    }
+
+    public String getFormName() {
+        return formName;
+    }
+
+    public void setFormName(String formName) {
+        this.formName = formName;
     }
 }

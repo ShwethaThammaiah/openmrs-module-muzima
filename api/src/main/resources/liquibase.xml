@@ -367,4 +367,86 @@
 
     </changeSet>
 
+    <changeSet id="muzima-20150819-111000" author="shwetha">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="muzima_queue_data" columnName="location_id"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="muzima_queue_data">
+            <column name="location_id" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="muzima_queue_data">
+            <column name="location_name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="muzima_queue_data">
+            <column name="provider_id" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="muzima_queue_data">
+            <column name="provider_name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="muzima-20150820-112000" author="shwetha">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="muzima_error_data" columnName="location_id"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="muzima_error_data">
+            <column name="location_id" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="muzima_error_data">
+            <column name="location_name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="muzima_error_data">
+            <column name="provider_id" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addColumn tableName="muzima_error_data">
+            <column name="provider_name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="muzima-20150825-113000" author="shwetha">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="muzima_queue_data" columnName="form_name"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="muzima_queue_data">
+            <column name="form_name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
+    <changeSet id="muzima-20150825-114000" author="shwetha">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <columnExists tableName="muzima_error_data" columnName="form_name"/>
+            </not>
+        </preConditions>
+        <addColumn tableName="muzima_error_data">
+            <column name="form_name" type="varchar(255)">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+    </changeSet>
+
 </databaseChangeLog>

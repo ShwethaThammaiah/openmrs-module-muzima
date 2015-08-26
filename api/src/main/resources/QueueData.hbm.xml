@@ -23,6 +23,12 @@
         <property name="dateChanged" type="java.util.Date" column="date_changed" length="19"/>
 
         <property name="uuid" type="java.lang.String" column="uuid" length="38" unique="true"/>
+
+        <property name="locationId" type="java.lang.String" column="location_id" not-null="false"/>
+        <property name="locationName" type="java.lang.String" column="location_name" not-null="false"/>
+        <property name="providerId" type="java.lang.String" column="provider_id" not-null="false"/>
+        <property name="providerName" type="java.lang.String" column="provider_name" not-null="false"/>
+        <property name="formName" type="java.lang.String" column="form_name" not-null="false"/>
     </class>
 
 </hibernate-mapping>
