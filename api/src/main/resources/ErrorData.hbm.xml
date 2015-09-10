@@ -33,8 +33,10 @@
             <one-to-many class="ErrorMessage"/>
         </set>
 
-        <property name="locationId" type="java.lang.String" column="location_id" not-null="false"/>
-        <property name="locationName" type="java.lang.String" column="location_name" not-null="false"/>
+        <many-to-one name="location" class="org.openmrs.Location" not-null="true">
+            <column name="location"/>
+        </many-to-one>
+
         <property name="providerId" type="java.lang.String" column="provider_id" not-null="false"/>
         <property name="providerName" type="java.lang.String" column="provider_name" not-null="false"/>
         <property name="formName" type="java.lang.String" column="form_name" not-null="false"/>

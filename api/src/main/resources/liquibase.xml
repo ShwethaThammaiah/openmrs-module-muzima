@@ -449,4 +449,43 @@
         </addColumn>
     </changeSet>
 
+
+    <changeSet id="muzima-20150909-113000" author="shwetha">
+    <preConditions onFail="MARK_RAN">
+        <and>
+            <columnExists tableName="muzima_queue_data" columnName="location_id"/>
+            <columnExists tableName="muzima_queue_data" columnName="location_name"/>
+        </and>
+    </preConditions>
+    <dropColumn tableName="muzima_queue_data" columnName="location_id" />
+    <dropColumn tableName="muzima_queue_data" columnName="location_name" />
+        <addColumn tableName="muzima_queue_data">
+            <column name="location" type="int">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addForeignKeyConstraint constraintName="muzima_queue_data_location"
+                                 baseTableName="muzima_queue_data" baseColumnNames="location"
+                                 referencedTableName="location" referencedColumnNames="location_id"/>
+    </changeSet>
+
+    <changeSet id="muzima-20150909-114000" author="shwetha">
+        <preConditions onFail="MARK_RAN">
+            <and>
+                <columnExists tableName="muzima_error_data" columnName="location_id"/>
+                <columnExists tableName="muzima_error_data" columnName="location_name"/>
+            </and>
+        </preConditions>
+        <dropColumn tableName="muzima_error_data" columnName="location_id" />
+        <dropColumn tableName="muzima_error_data" columnName="location_name" />
+        <addColumn tableName="muzima_error_data">
+            <column name="location" type="int">
+                <constraints nullable="true"/>
+            </column>
+        </addColumn>
+        <addForeignKeyConstraint constraintName="muzima_error_data_location"
+                                 baseTableName="muzima_error_data" baseColumnNames="location"
+                                 referencedTableName="location" referencedColumnNames="location_id"/>
+    </changeSet>
+
 </databaseChangeLog>

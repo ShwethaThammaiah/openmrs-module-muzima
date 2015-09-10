@@ -161,8 +161,7 @@ public class QueueDataResource extends DataDelegatingCrudResource<QueueData> {
         delegatingResourceDescription.addRequiredProperty("dataSource");
         delegatingResourceDescription.addRequiredProperty("payload");
         delegatingResourceDescription.addRequiredProperty("discriminator");
-        delegatingResourceDescription.addRequiredProperty("locationId");
-        delegatingResourceDescription.addRequiredProperty("locationName");
+        delegatingResourceDescription.addRequiredProperty("location");
         delegatingResourceDescription.addRequiredProperty("providerId");
         delegatingResourceDescription.addRequiredProperty("providerName");
         delegatingResourceDescription.addRequiredProperty("formName");
@@ -254,22 +253,20 @@ public class QueueDataResource extends DataDelegatingCrudResource<QueueData> {
         }
 
         QueueData queueData = new QueueData();
-        String locationId = extractLocationIdFromPayload(payload);
-        String locationName = extractLocationNameFromPayload(payload);
+        Location location = extractLocationFromPayload(payload);
         String providerId = extractProviderIdFromPayload(payload);
         String providerName = extractProviderNameFromPayload(payload);
+
 
         queueData.setDataSource(dataSource);
         queueData.setPayload(payload);
         queueData.setFormName(formName);
-        queueData.setLocationId(locationId);
-        queueData.setLocationName(locationName);
+        queueData.setLocation(location);
         queueData.setProviderId(providerId);
         queueData.setProviderName(providerName);
 
 
-        propertiesToCreate.put("locationId",locationId);
-        propertiesToCreate.put("locationName", locationName);
+        propertiesToCreate.put("location",location);
         propertiesToCreate.put("providerId",providerId);
         propertiesToCreate.put("providerName",providerName);
 
@@ -278,26 +275,11 @@ public class QueueDataResource extends DataDelegatingCrudResource<QueueData> {
         return ConversionUtil.convertToRepresentation(queueData, Representation.DEFAULT);
     }
 
-    private String extractLocationNameFromPayload(String payload) {
+    private Location extractLocationFromPayload(String payload) {
         String locationString = JsonUtils.readAsString(payload, "$['encounter']['encounter.location_id']");
         int locationId = NumberUtils.toInt(locationString, -999);
         Location location = Context.getLocationService().getLocation(locationId);
-        if (location == null) {
-            return "";
-        } else {
-            return location.toString();
-        }
-    }
-
-    private String extractLocationIdFromPayload(String payload) {
-        String locationString = JsonUtils.readAsString(payload, "$['encounter']['encounter.location_id']");
-        int locationId = NumberUtils.toInt(locationString, -999);
-        Location location = Context.getLocationService().getLocation(locationId);
-        if (location == null) {
-            return "";
-        } else {
-            return new Integer(locationId).toString();
-        }
+        return location;
     }
 
     private String extractProviderIdFromPayload(String payload) {
