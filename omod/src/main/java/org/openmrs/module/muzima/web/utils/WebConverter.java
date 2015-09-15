@@ -50,8 +50,8 @@ public class WebConverter {
             map.put("submitted", Context.getDateFormat().format(queueData.getDateCreated()));
             map.put("locationId", queueData.getLocation().getLocationId());
             map.put("locationName", queueData.getLocation().toString());
-            map.put("providerId", queueData.getProviderId());
-            map.put("providerName", queueData.getProviderName());
+            map.put("providerId", queueData.getProvider().getSystemId());
+            map.put("providerName", queueData.getProvider().getGivenName());
             map.put("formName", queueData.getFormName());
         }
         return map;
@@ -67,8 +67,8 @@ public class WebConverter {
             map.put("payload", errorData.getPayload());
             map.put("locationId", errorData.getLocation().getLocationId());
             map.put("locationName", errorData.getLocation().toString());
-            map.put("providerId", errorData.getProviderId());
-            map.put("providerName", errorData.getProviderName());
+            map.put("providerId", errorData.getProvider().getSystemId());
+            map.put("providerName", errorData.getProvider().getGivenName());
             map.put("formName", errorData.getFormName());
             map.put("submitted", Context.getDateFormat().format(errorData.getDateCreated()));
             map.put("processed", Context.getDateFormat().format(errorData.getDateProcessed()));

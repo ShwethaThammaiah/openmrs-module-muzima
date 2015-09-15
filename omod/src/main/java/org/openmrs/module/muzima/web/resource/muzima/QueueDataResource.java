@@ -16,6 +16,7 @@ package org.openmrs.module.muzima.web.resource.muzima;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.openmrs.Form;
 import org.openmrs.Location;
 import org.openmrs.User;
 import org.openmrs.api.context.Context;
@@ -24,6 +25,8 @@ import org.openmrs.module.muzima.model.DataSource;
 import org.openmrs.module.muzima.model.QueueData;
 import org.openmrs.module.muzima.web.controller.MuzimaRestController;
 import org.openmrs.module.muzima.web.resource.utils.JsonUtils;
+import org.openmrs.module.muzimaforms.MuzimaForm;
+import org.openmrs.module.muzimaforms.api.MuzimaFormService;
 import org.openmrs.module.webservices.rest.SimpleObject;
 import org.openmrs.module.webservices.rest.web.ConversionUtil;
 import org.openmrs.module.webservices.rest.web.RequestContext;
@@ -162,8 +165,7 @@ public class QueueDataResource extends DataDelegatingCrudResource<QueueData> {
         delegatingResourceDescription.addRequiredProperty("payload");
         delegatingResourceDescription.addRequiredProperty("discriminator");
         delegatingResourceDescription.addRequiredProperty("location");
-        delegatingResourceDescription.addRequiredProperty("providerId");
-        delegatingResourceDescription.addRequiredProperty("providerName");
+        delegatingResourceDescription.addRequiredProperty("provider");
         delegatingResourceDescription.addRequiredProperty("formName");
         return delegatingResourceDescription;
     }
@@ -242,37 +244,30 @@ public class QueueDataResource extends DataDelegatingCrudResource<QueueData> {
             payload = payloadObject.toString();
         }
 
-        Object formNameProperty = propertiesToCreate.get("formName");
-        String formName = new String();
-        if (formNameProperty == null) {
-            throw new ConversionException("The form name property is missing!");
-        }
-
-        if(formNameProperty instanceof String){
-            formName = (String)formNameProperty;
-        }
-
         QueueData queueData = new QueueData();
         Location location = extractLocationFromPayload(payload);
-        String providerId = extractProviderIdFromPayload(payload);
-        String providerName = extractProviderNameFromPayload(payload);
-
+        User provider = extractProviderFromPayload(payload);
+        String formName = extractFormNameFromPayload(payload);
 
         queueData.setDataSource(dataSource);
         queueData.setPayload(payload);
         queueData.setFormName(formName);
         queueData.setLocation(location);
-        queueData.setProviderId(providerId);
-        queueData.setProviderName(providerName);
-
+        queueData.setProvider(provider);
 
         propertiesToCreate.put("location",location);
-        propertiesToCreate.put("providerId",providerId);
-        propertiesToCreate.put("providerName",providerName);
+        propertiesToCreate.put("provider",provider);
+        propertiesToCreate.put("formName",formName);
 
         setConvertedProperties(queueData, propertiesToCreate, getCreatableProperties(), true);
         queueData = save(queueData);
         return ConversionUtil.convertToRepresentation(queueData, Representation.DEFAULT);
+    }
+
+    private User extractProviderFromPayload(String payload) {
+        String providerString = JsonUtils.readAsString(payload, "$['encounter']['encounter.provider_id']");
+        User user = Context.getUserService().getUserByUsername(providerString);
+        return user;
     }
 
     private Location extractLocationFromPayload(String payload) {
@@ -282,25 +277,10 @@ public class QueueDataResource extends DataDelegatingCrudResource<QueueData> {
         return location;
     }
 
-    private String extractProviderIdFromPayload(String payload) {
-        String providerString = JsonUtils.readAsString(payload, "$['encounter']['encounter.provider_id']");
-        User provider = Context.getUserService().getUserByUsername(providerString);
-        if (provider == null) {
-            System.out.println("Provider with ID doesn't exist" + providerString);
-        } else {
-           return providerString;
-        }
-        return "";
-    }
-
-    private String extractProviderNameFromPayload(String payload) {
-        String providerString = JsonUtils.readAsString(payload, "$['encounter']['encounter.provider_id']");
-        User provider = Context.getUserService().getUserByUsername(providerString);
-        if (provider == null) {
-            System.out.println("Provider doesn't exist doesn't exist");
-        } else {
-            return provider.getGivenName();
-        }
-        return "";
+    private String extractFormNameFromPayload(String payload) {
+        String formUuid = JsonUtils.readAsString(payload, "$['encounter']['encounter.form_uuid']");
+        MuzimaFormService muzimaFormService = Context.getService(MuzimaFormService.class);
+        MuzimaForm muzimaForm = muzimaFormService.findByUniqueId(formUuid);
+        return muzimaForm.getName();
     }
 }

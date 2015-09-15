@@ -15,6 +15,7 @@ package org.openmrs.module.muzima.model;
 
 import org.openmrs.BaseOpenmrsData;
 import org.openmrs.Location;
+import org.openmrs.User;
 
 /**
  */
@@ -30,9 +31,7 @@ public abstract class AuditableData extends BaseOpenmrsData implements Data {
 
     private Location location;
 
-    private String providerId;
-
-    private String providerName;
+    private User provider;
 
     private String formName;
 
@@ -48,8 +47,7 @@ public abstract class AuditableData extends BaseOpenmrsData implements Data {
         setDataSource(data.getDataSource());
         setDiscriminator(data.getDiscriminator());
         setLocation(data.getLocation());
-        setProviderId(data.getProviderId());
-        setProviderName(data.getProviderName());
+        setProvider(data.getProvider());
         setFormName(data.getFormName());
     }
 
@@ -132,20 +130,12 @@ public abstract class AuditableData extends BaseOpenmrsData implements Data {
         this.location = location;
     }
 
-    public String getProviderId() {
-        return providerId;
+    public User getProvider() {
+        return provider;
     }
 
-    public void setProviderId(String providerId) {
-        this.providerId = providerId;
-    }
-
-    public String getProviderName() {
-        return providerName;
-    }
-
-    public void setProviderName(String providerName) {
-        this.providerName = providerName;
+    public void setProvider(User provider) {
+        this.provider = provider;
     }
 
     public String getFormName() {

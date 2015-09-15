@@ -83,6 +83,16 @@
             <type>pom</type>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>muzimaforms-api</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openmrs.module</groupId>
+            <artifactId>muzimaforms-omod</artifactId>
+            <version>1.0.1-SNAPSHOT</version>
+        </dependency>
 
         <!-- End OpenMRS core -->
 
